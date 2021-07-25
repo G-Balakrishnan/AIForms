@@ -1,0 +1,495 @@
+﻿
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" name="viewport">
+
+<link rel="stylesheet" href="../dist/modules/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../dist/modules/ionicons/css/ionicons.min.css">
+<link rel="stylesheet" href="../dist/modules/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+
+<link rel="stylesheet" href="../dist/modules/summernote/summernote-lite.css">
+<link rel="stylesheet" href="../dist/modules/flag-icon-css/css/flag-icon.min.css">
+<link rel="stylesheet" href="../dist/css/demo.css">
+<link rel="stylesheet" href="../dist/css/style.css">
+
+
+<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+    $('.loader_body').hide();
+    });
+    function readURL(input) {
+        debugger;
+        $('.loader_body').show();
+        if (input.files && input.files[0]) {
+
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.image-upload-wrap').hide();
+                $('.file-upload-image').attr('src', e.target.result);
+                $('.file-upload-content').show();
+                $('.image-title').html(input.files[0].name);
+                $('#viewPdf').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+
+            var files = input.files;
+            var data = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                data.append(files[i].name, files[i]);
+            }
+            $.ajax({
+                type: "post",
+                url: "/home/UploadInvoice",
+                contentType: false,
+                processData: false,
+                data: data,
+                success: function (message) {
+                    console.log(message);
+                    alert(JSON.stringify(message));
+                    debugger;
+                    //$("#InvoiceId").html(message.InvoiceId);
+                    for (var i = 0; i < message.length; i++) {
+                        $('#table1').append('<tr><td> ' + message[i].Key + '</td><td>' + message[i].Value + '</td></tr>');
+                    }
+                    $('.loader_body').hide();
+
+
+                },
+                error: function () {
+                    alert("there was error uploading files!");
+                }
+            });
+            //});
+
+        } else {
+            removeUpload();
+        }
+    }
+
+    function removeUpload() {
+        $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+        $('.file-upload-content').hide();
+        $('.image-upload-wrap').show();
+    }
+    $('.image-upload-wrap').bind('dragover', function () {
+        $('.image-upload-wrap').addClass('image-dropping');
+    });
+    $('.image-upload-wrap').bind('dragleave', function () {
+        $('.image-upload-wrap').removeClass('image-dropping');
+    });
+</script>
+<style>
+    .file-upload {
+        background-color: #ffffff;
+        width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .file-upload-btn {
+        width: 100%;
+        margin: 0;
+        color: #fff;
+        background: #1FB264;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        border-bottom: 4px solid #15824B;
+        transition: all .2s ease;
+        outline: none;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+        .file-upload-btn:hover {
+            background: #1AA059;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-btn:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+    .file-upload-content {
+        display: none;
+    }
+
+    .file-upload-input {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        outline: none;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .image-upload-wrap {
+        margin-top: 20px;
+        position: relative;
+    }
+
+        .image-dropping,
+        .image-upload-wrap:hover {
+            background-color: #1FB264;
+        }
+
+    .image-title-wrap {
+        color: #222;
+        margin-top: 20px;
+    }
+    iframe {
+        border: 0px solid #ddd;
+        width: 100%;
+        height: 500px;
+        background-color: #fff;
+    }
+
+    .drag-text {
+        text-align: center;
+    }
+
+        .drag-text h3 {
+            font-weight: 100;
+            text-transform: uppercase;
+            color: #15824B;
+            padding: 60px 0;
+        }
+
+    .file-upload-image {
+        max-height: 200px;
+        max-width: 200px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .remove-image {
+        width: 200px;
+        margin: 0;
+        color: #fff;
+        background: #cd4535;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        border-bottom: 4px solid #b02818;
+        transition: all .2s ease;
+        outline: none;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+        .remove-image:hover {
+            background: #c13b2a;
+            color: #ffffff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .remove-image:active {
+            border: 0;
+            transition: all .2s ease;
+        }
+
+        /*loader start */
+    .loader_body {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+    }
+    .loader {
+        border: 4px solid #d4d4d4;
+        border-radius: 50%;
+        border-top: 4px solid #ffffff;
+        width: 50px;
+        height: 50px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        margin: 21% auto;
+    }
+
+@@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+    /*loader end*/
+</style>
+<style>
+    #table1 {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        #table1 td, #table1 th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #table1 tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #table1 tr:hover {
+            background-color: #ddd;
+        }
+
+        #table1 th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+</style>
+<div class="loader_body">
+    <div class="loader"></div>
+</div>
+
+<div id="app">
+    <div class="main-wrapper">
+        <div class="navbar-bg"></div>
+        <nav class="navbar navbar-expand-lg main-navbar">
+            <form class="form-inline mr-auto">
+                <ul class="navbar-nav mr-3">
+                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="ion ion-navicon-round"></i></a></li>
+                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="ion ion-search"></i></a></li>
+                </ul>
+                <div class="search-element">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn" type="submit"><i class="ion ion-search"></i></button>
+                </div>
+            </form>
+            <ul class="navbar-nav navbar-right">
+                <li class="dropdown dropdown-list-toggle">
+                    <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="ion ion-ios-bell-outline"></i></a>
+                    <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                        <div class="dropdown-header">
+                            Notifications
+                            <div class="float-right">
+                                <a href="#">View All</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-list-content">
+                            <a href="#" class="dropdown-item dropdown-item-unread">
+                                <img alt="image" src="../dist/img/avatar/avatar-1.jpeg" class="rounded-circle dropdown-item-img">
+                                <div class="dropdown-item-desc">
+                                    <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
+                                    <div class="time">10 Hours Ago</div>
+                                </div>
+                            </a>
+                            <a href="#" class="dropdown-item dropdown-item-unread">
+                                <img alt="image" src="../dist/img/avatar/avatar-2.jpeg" class="rounded-circle dropdown-item-img">
+                                <div class="dropdown-item-desc">
+                                    <b>Uma Sankar</b> has moved task <b>Fix bug footer</b> to <b>Progress</b>
+                                    <div class="time">12 Hours Ago</div>
+                                </div>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <img alt="image" src="../dist/img/avatar/avatar-3.jpeg" class="rounded-circle dropdown-item-img">
+                                <div class="dropdown-item-desc">
+                                    <b>Agung Ardiansyah</b> has moved task <b>Fix bug sidebar</b> to <b>Done</b>
+                                    <div class="time">12 Hours Ago</div>
+                                </div>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <img alt="image" src="../dist/img/avatar/avatar-4.jpeg" class="rounded-circle dropdown-item-img">
+                                <div class="dropdown-item-desc">
+                                    <b>Ardian Rahardiansyah</b> has moved task <b>Fix bug navbar</b> to <b>Done</b>
+                                    <div class="time">16 Hours Ago</div>
+                                </div>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <img alt="image" src="../dist/img/avatar/avatar-5.jpeg" class="rounded-circle dropdown-item-img">
+                                <div class="dropdown-item-desc">
+                                    <b>Alfa Zulkarnain</b> has moved task <b>Add logo</b> to <b>Done</b>
+                                    <div class="time">Yesterday</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg">
+                        <i class="ion ion-android-person d-lg-none"></i>
+                        <div class="d-sm-none d-lg-inline-block">Hi, Uma Sankar</div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="profile.html" class="dropdown-item has-icon">
+                            <i class="ion ion-android-person"></i> Profile
+                        </a>
+                        <a href="#" class="dropdown-item has-icon">
+                            <i class="ion ion-log-out"></i> Logout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="main-sidebar">
+            <aside id="sidebar-wrapper">
+                <div class="sidebar-brand">
+                    <a href="index.html">AI Invoice Reader </a>
+                </div>
+                <div class="sidebar-user">
+                    <div class="sidebar-user-picture">
+                        <img alt="image" src="../dist/img/avatar/avatar-1.jpeg">
+                    </div>
+                    <div class="sidebar-user-details">
+                        <div class="user-name">Uma sankar</div>
+                        <div class="user-role">
+                            Administrator
+                        </div>
+                    </div>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="menu-header">Dashboard</li>
+                    <li >
+                        <a href="#"><i class="ion ion-speedometer"></i><span>Dashboard</span></a>
+                    </li>
+                    <li class="active">
+                        <a href="#"><i class="ion ion-clipboard"></i><span>Invoice Reader</span></a>
+                    </li>
+                    @*<li>
+                        <a href="#"><i class="ion ion-flag"></i><span>Form Reader</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="ion ion-ios-circle-outline"></i><span>Custom Reader</span></a>
+                    </li>*@
+
+
+            </aside>
+        </div>
+        <div class="main-content">
+            <section class="section">
+                <h1 class="section-header">
+                    <div>Invoice Reader</div>
+                </h1>
+                @*<form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="UploadInvoice">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <p>Upload one or more files using this form:</p>
+                                <input type="file" name="files" multiple />
+                            </div>
+                        </div>    <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="submit" value="Upload" />
+                            </div>
+                        </div>
+                    </form>*@
+
+
+                <div class="row">
+
+                    <div class="file-upload col-md-6">
+                        <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add File</button>
+
+                        <div class="image-upload-wrap">
+            <input class="file-upload-input" type='file' onchange="readURL(this);" />
+            @*<div class="drag-text">
+                <h3>Drag and drop a file or select add Image</h3>
+            </div>*@
+        </div>
+
+                        <div class="row">
+                            <h4 class="col-md-12">Invoice Details</h4>
+                            <div class="col-md-12">
+                                <table id="table1">
+                                    <thead>
+                                        <tr>
+                                            <td>
+                                                Field
+                                            </td>
+                                            <td>
+                                                Value
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="databody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                        <div class="file-upload-content">
+                            @*<img class="file-upload-image1" src="../ai.png" alt="your image" style=" width: 420px;" />*@
+                            <div class="image-title-wrap">
+                                <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded File</span></button>
+                            </div>
+                        </div>
+                    </div>
+                     @*pdf View*@
+                <div class="col-md-6">
+                    <iframe id="viewPdf"></iframe>
+                </div>
+
+                </div>
+            </section>
+        </div>
+
+    </div>
+</div>
+
+<script src="../dist/modules/jquery.min.js"></script>
+<script src="../dist/modules/popper.js"></script>
+<script src="../dist/modules/tooltip.js"></script>
+<script src="../dist/modules/bootstrap/js/bootstrap.min.js"></script>
+<script src="../dist/modules/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="../dist/modules/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
+<script src="../dist/js/sa-functions.js"></script>
+
+<script src="../dist/modules/chart.min.js"></script>
+<script src="../dist/modules/summernote/summernote-lite.js"></script>
+
+@*<script>var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        datasets: [{
+          label: 'Statistics',
+          data: [460, 458, 330, 502, 430, 610, 488],
+          borderWidth: 2,
+          backgroundColor: 'rgb(87,75,144)',
+          borderColor: 'rgb(87,75,144)',
+          borderWidth: 2.5,
+          pointBackgroundColor: '#ffffff',
+          pointRadius: 4
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              stepSize: 150
+            }
+          }],
+          xAxes: [{
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+      }
+    });</script>*@
+<script src="../dist/js/scripts.js"></script>
+<script src="../dist/js/custom.js"></script>
+<script src="../dist/js/demo.js"></script>

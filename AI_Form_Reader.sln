@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AI_Form_Reader", "AI_Form_Reader\AI_Form_Reader.csproj", "{D8836A27-51E7-4C08-916F-47C46B92F093}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureAIForms", "AzureAIForms\AzureAIForms.csproj", "{69A658AC-82F4-4EA3-B219-31A13C2E7F06}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8836A27-51E7-4C08-916F-47C46B92F093}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8836A27-51E7-4C08-916F-47C46B92F093}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8836A27-51E7-4C08-916F-47C46B92F093}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8836A27-51E7-4C08-916F-47C46B92F093}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69A658AC-82F4-4EA3-B219-31A13C2E7F06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A658AC-82F4-4EA3-B219-31A13C2E7F06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69A658AC-82F4-4EA3-B219-31A13C2E7F06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69A658AC-82F4-4EA3-B219-31A13C2E7F06}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5A2A495-CBE7-4F2F-A50C-00BFF55280F9}
+	EndGlobalSection
+EndGlobal
